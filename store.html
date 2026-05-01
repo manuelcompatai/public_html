@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dataset Store | compaTAI - High Density Chaos Data</title>
+    
+    <meta name="description" content="Purchase premium edge-case datasets for AI training. Mexico City high-density traffic chaos packs.">
+    <link rel="icon" type="image/png" href="https://compatai.mx/assets/logo/Logo_compaTAI.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; 
+            background-color: #0b0b0b;
+        }
+
+        .store-wrapper {
+            position: relative;
+            /* padding-top: 70px; <-- ELIMINA ESTA LÍNEA */
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .iframe-container {
+            flex-grow: 1;
+            width: 100%;
+            border: none;
+            background-color: #f4f4f4;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .loading-overlay {
+            position: absolute;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            height: calc(100% - 70px);
+            background: #0b0b0b;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .loading-overlay.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(230, 0, 0, 0.1);
+            border-top: 3px solid #E60000;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="iframe-page">
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+            <img src="/assets/logo/compaTAI_logo_75x75.png" alt="compaTAI logo"></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="demo.html">Live Demo</a></li>
+                <li><a href="store.html" class="active">Dataset Store</a></li>
+                <li><a href="mailto:hello@compatai.mx" class="nav-btn">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="store-wrapper">
+        <div class="loading-overlay" id="loadingScreen">
+            <img src="https://compatai.mx/assets/logo/Logo_compaTAI.png" alt="Logo" style="width: 80px; margin-bottom: 20px;">
+            <p style="color: #E60000; font-weight: 600; font-size: 0.9rem; letter-spacing: 2px;">SECURE STORE CONNECTION...</p>
+            <div class="spinner"></div>
+        </div>
+
+        <div class="iframe-container">
+            <iframe 
+                id="gumroad-iframe"
+                src="https://compataiadmin.gumroad.com/" 
+                title="compaTAI Store">
+            </iframe>
+        </div>
+    </div>
+
+    <script>
+        const iframe = document.getElementById('gumroad-iframe');
+        const loading = document.getElementById('loadingScreen');
+
+        iframe.onload = function() {
+            setTimeout(() => {
+                loading.classList.add('fade-out');
+            }, 1000);
+        };
+
+        setTimeout(() => {
+            loading.classList.add('fade-out');
+        }, 5000);
+    </script>
+</body>
+</html>

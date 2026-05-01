@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>compaTAI - AI Training for Self-Driving Cars in Chaotic Cities</title>
+  
+  <!-- METADATOS MULTILINGÜES -->
+  <!-- Español (default) -->
+  <meta name="description" content="Entrenamos modelos de inteligencia artificial para vehículos autónomos que operan en entornos urbanos caóticos como Ciudad de México. Datos reales de tráfico irregular para IA robusta.">
+  <meta property="og:title" content="compaTAI - IA para autos autónomos en ciudades caóticas">
+  <meta property="og:description" content="Entrenamos IA con datos reales de tráfico caótico de CDMX para crear modelos robustos de conducción autónoma.">
+  
+  <!-- English -->
+  <meta name="description" lang="en" content="We train AI models for autonomous vehicles operating in chaotic urban environments like Mexico City. Real irregular traffic data for robust AI systems.">
+  <meta property="og:title" lang="en" content="compaTAI - AI for Autonomous Cars in Chaotic Cities">
+  <meta property="og:description" lang="en" content="Training AI with real chaotic traffic data from Mexico City to create robust autonomous driving models.">
+  
+  <!-- Português -->
+  <meta name="description" lang="pt" content="Treinamos modelos de IA para veículos autônomos que operam em ambientes urbanos caóticos como a Cidade do México. Dados reais de trânsito irregular para IA robusta.">
+  <meta property="og:title" lang="pt" content="compaTAI - IA para carros autônomos em cidades caóticas">
+  <meta property="og:description" lang="pt" content="Treinando IA com dados reais de trânsito caótico da CDMX para criar modelos robustos de condução autônoma.">
+  
+  <!-- Français -->
+  <meta name="description" lang="fr" content="Nous entraînons des modèles d'IA pour véhicules autonomes opérant dans des environnements urbains chaotiques comme Mexico. Données réelles de trafic irrégulier pour IA robuste.">
+  <meta property="og:title" lang="fr" content="compaTAI - IA pour voitures autonomes dans villes chaotiques">
+  <meta property="og:description" lang="fr" content="Formation d'IA avec données réelles de trafic chaotique de Mexico pour créer des modèles robustes de conduite autonome.">
+  
+  <!-- Keywords for SEO -->
+  <meta name="keywords" content="autonomous vehicles, chaotic traffic, Mexico City, AI training, CDMX, irregular traffic, autonomous driving, machine learning, computer vision, urban mobility">
+  <meta name="keywords" lang="es" content="vehículos autónomos, tráfico caótico, Ciudad de México, entrenamiento IA, CDMX, tráfico irregular, conducción autónoma, machine learning, visión computacional, movilidad urbana">
+  
+  <!-- Open Graph / Twitter Cards -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://compatai.mx/">
+  <meta property="og:image" content="https://compatai.mx/assets/img/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #2E86AB;
+      --dark: #1A1A1A;
+      --light: #FFFFFF;
+      --accent: #00D4AA;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      height: 100vh;
+      overflow: hidden;
+      color: var(--light);
+    }
+    
+    #background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      object-fit: cover;
+    }
+    
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+    }
+    
+    .container {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 20px;
+    }
+    
+    .logo {
+      width: 120px;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+    }
+    
+    h1 {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+      line-height: 1.2;
+    }
+    
+    .highlight {
+      color: var(--accent);
+      font-weight: 700;
+    }
+    
+    p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+    
+    .cta-section {
+      margin-top: 1rem;
+    }
+    
+    .cta-text {
+      font-size: 1rem;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    footer {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+    
+    footer a {
+      color: var(--light);
+      text-decoration: none;
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      transition: background 0.3s ease;
+    }
+    
+    footer a:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    #language-selector {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      color: var(--light);
+      backdrop-filter: blur(10px);
+    }
+    
+    #fallbackImage {
+      opacity: 1;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      object-fit: cover;
+      display: none;
+    }
+    
+    .video-failed #fallbackImage {
+      display: block;
+    }
+    
+    .video-failed #background {
+      display: none;
+    }
+    
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.2rem;
+      }
+      p {
+        font-size: 1rem;
+      }
+      .logo {
+        width: 100px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+      p {
+        font-size: 0.95rem;
+        max-width: 90%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Background: Video con fallback robusto -->
+  <video id="background" autoplay muted loop playsinline>
+    <source src="background-video.mp4" type="video/mp4">
+    <source src="background-video.webm" type="video/webm">
+  </video>
+  <img id="fallbackImage" src="https://compatai.mx/assets/img_background/Photo-01878.jpg" alt="Chaotic traffic data collection in Mexico City">
+  <div class="overlay"></div>
+  
+  <!-- Contenido Principal -->
+  <div class="container">
+    <!-- Selector de Idioma -->
+    <select id="language-selector">
+      <option value="en">English</option>
+      <option value="es">Español</option>
+      <option value="pt">Português</option>
+      <option value="fr">Français</option>
+    </select>
+    
+    <!-- Logo -->
+    <img src="https://compatai.mx/assets/logo/Logo_compaTAI.png" alt="compaTAI Logo" class="logo">
+    
+    <!-- Texto Dinámico por Idioma -->
+    <h1 id="title">AI for <span class="highlight">Chaotic Cities</span></h1>
+    <p id="description">We train autonomous vehicle AI models using real chaotic traffic data from Mexico City...</p>
+    
+    <div class="cta-section">
+      <p class="cta-text" id="cta-text">Looking for investors, founding partners & collaborators</p>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+      <a href="mailto:hello@compatai.mx">hello@compatai.mx</a>
+    </footer>
+  </div>
+  
+  <!-- Scripts -->
+  <script>
+    // Cambiar idioma dinámicamente
+    document.getElementById('language-selector').addEventListener('change', function() {
+      const lang = this.value;
+      const texts = {
+        en: {
+          title: 'AI for <span class="highlight">Chaotic Cities</span>',
+          description: "We train autonomous vehicle AI models using real chaotic traffic data from Mexico City. Our models learn to navigate irregular patterns, unpredictable drivers, and complex urban environments that traditional AVs can't handle.",
+          cta: "Looking for investors, founding partners & collaborators"
+        },
+        es: {
+          title: 'IA para <span class="highlight">Ciudades Caóticas</span>',
+          description: "Entrenamos modelos de IA para vehículos autónomos usando datos reales de tráfico caótico de Ciudad de México. Nuestros modelos aprenden a navegar patrones irregulares, conductores impredecibles y entornos urbanos complejos que los AV tradicionales no pueden manejar.",
+          cta: "Buscamos inversionistas, socios fundadores y colaboradores"
+        },
+        pt: {
+          title: 'IA para <span class="highlight">Cidades Caóticas</span>',
+          description: "Treinamos modelos de IA para veículos autônomos usando dados reais de trânsito caótico da Cidade do México. Nossos modelos aprendem a navegar padrões irregulares, motoristas imprevisíveis e ambientes urbanos complexos que AVs tradicionais não conseguem lidar.",
+          cta: "Procuramos investidores, sócios fundadores e colaboradores"
+        },
+        fr: {
+          title: 'IA pour <span class="highlight">Villes Chaotiques</span>',
+          description: "Nous entraînons des modèles d'IA pour véhicules autonomes en utilisant des données réelles de trafic chaotique de Mexico. Nos modèles apprennent à naviguer dans des modèles irréguliers, des conducteurs imprévisibles et des environnements urbains complexes que les AV traditionnels ne peuvent pas gérer.",
+          cta: "Nous recherchons des investisseurs, partenaires fondateurs et collaborateurs"
+        }
+      };
+      
+      document.getElementById('title').innerHTML = texts[lang].title;
+      document.getElementById('description').textContent = texts[lang].description;
+      document.getElementById('cta-text').textContent = texts[lang].cta;
+    });
+
+    // Detección robusta de fallo de video
+    document.addEventListener('DOMContentLoaded', function() {
+      const video = document.getElementById('background');
+      const fallbackImage = document.getElementById('fallbackImage');
+      
+      video.play().catch(() => activateFallback());
+      video.addEventListener('error', activateFallback);
+      
+      setTimeout(() => {
+        if (video.readyState < 3) activateFallback();
+      }, 3000);
+      
+      function activateFallback() {
+        document.body.classList.add('video-failed');
+      }
+    });
+  </script>
+</body>
+</html>

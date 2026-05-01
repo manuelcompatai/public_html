@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>compaTAI - AI Training for Self-Driving Cars in Chaotic Cities</title>
+  
+  <!-- METADATOS MULTILINGÜES -->
+  <!-- Español (default) -->
+  <meta name="description" content="Entrenamos modelos de inteligencia artificial para vehículos autónomos que operan en entornos urbanos caóticos como Ciudad de México. Datos reales de tráfico irregular para IA robusta.">
+  <meta property="og:title" content="compaTAI - IA para autos autónomos en ciudades caóticas">
+  <meta property="og:description" content="Entrenamos IA con datos reales de tráfico caótico de CDMX para crear modelos robustos de conducción autónoma.">
+  
+  <!-- English -->
+  <meta name="description" lang="en" content="We train AI models for autonomous vehicles operating in chaotic urban environments like Mexico City. Real irregular traffic data for robust AI systems.">
+  <meta property="og:title" lang="en" content="compaTAI - AI for Autonomous Cars in Chaotic Cities">
+  <meta property="og:description" lang="en" content="Training AI with real chaotic traffic data from Mexico City to create robust autonomous driving models.">
+  
+  <!-- Português -->
+  <meta name="description" lang="pt" content="Treinamos modelos de IA para veículos autônomos que operam em ambientes urbanos caóticos como a Cidade do México. Dados reais de trânsito irregular para IA robusta.">
+  <meta property="og:title" lang="pt" content="compaTAI - IA para carros autônomos em cidades caóticas">
+  <meta property="og:description" lang="pt" content="Treinando IA com dados reais de trânsito caótico da CDMX para criar modelos robustos de condução autônoma.">
+  
+  <!-- Français -->
+  <meta name="description" lang="fr" content="Nous entraînons des modèles d'IA pour véhicules autonomes opérant dans des environnements urbains chaotiques comme Mexico. Données réelles de trafic irrégulier pour IA robuste.">
+  <meta property="og:title" lang="fr" content="compaTAI - IA pour voitures autonomes dans villes chaotiques">
+  <meta property="og:description" lang="fr" content="Formation d'IA avec données réelles de trafic chaotique de Mexico pour créer des modèles robustes de conduite autonome.">
+  
+  <!-- Keywords for SEO -->
+  <meta name="keywords" content="autonomous vehicles, chaotic traffic, Mexico City, AI training, CDMX, irregular traffic, autonomous driving, machine learning, computer vision, urban mobility">
+  <meta name="keywords" lang="es" content="vehículos autónomos, tráfico caótico, Ciudad de México, entrenamiento IA, CDMX, tráfico irregular, conducción autónoma, machine learning, visión computacional, movilidad urbana">
+  
+  <!-- Open Graph / Twitter Cards -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://compatai.mx/">
+  <meta property="og:image" content="https://compatai.mx/assets/img/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://compatai.mx/assets/logo/Logo_compaTAI.png">
+    
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        .iframe-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            z-index: 999999;
+        }
+        
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* Pantalla de carga con branding CompaTAI */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1A1A1A 0%, #2E86AB 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000000;
+            color: white;
+        }
+        
+        .loading-logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+        }
+        
+        .loading p {
+            font-size: 1.3rem;
+            color: #ffffff;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        
+        .loading-subtitle {
+            font-size: 0.9rem;
+            color: #00D4AA;
+            font-weight: 600;
+            margin-bottom: 30px;
+            text-align: center;
+            max-width: 400px;
+        }
+        
+        /* Spinner de carga */
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid #00D4AA;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Animación de fade out para la pantalla de carga */
+        .loading.fade-out {
+            opacity: 0;
+            transition: opacity 0.5s ease-out;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .loading-logo {
+                width: 100px;
+            }
+            .loading p {
+                font-size: 1.1rem;
+            }
+            .loading-subtitle {
+                font-size: 0.8rem;
+                padding: 0 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Pantalla de carga con branding CompaTAI -->
+    <div class="loading" id="loadingScreen">
+        <img src="https://compatai.mx/assets/logo/Logo_compaTAI.png" alt="CompaTAI Logo" class="loading-logo">
+        <p>Cargando CompaTAI...</p>
+        <p class="loading-subtitle">IA para Autos Autónomos en Ciudades Caóticas</p>
+        <div class="spinner"></div>
+    </div>
+    
+    <!-- Contenedor del iframe -->
+    <div class="iframe-container">
+        <iframe 
+            src="https://manuelvaraletai-compatai-v0.hf.space"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; camera; microphone"
+            allowfullscreen
+            title="CompaTAI - AI Training Platform">
+        </iframe>
+    </div>
+
+    <script>
+        // Función para ocultar la pantalla de carga con animación
+        function hideLoadingScreen() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            loadingScreen.classList.add('fade-out');
+            
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 500);
+        }
+
+        // Manejar la carga del iframe
+        window.onload = function() {
+            const iframe = document.querySelector('iframe');
+            
+            // Ocultar pantalla de carga cuando el iframe se carga
+            iframe.onload = function() {
+                setTimeout(hideLoadingScreen, 800); // Pequeño delay para mejor UX
+            };
+
+            // Fallback: ocultar después de 8 segundos máximo
+            setTimeout(function() {
+                hideLoadingScreen();
+            }, 8000);
+        };
+
+        // Manejar errores de carga del iframe
+        document.querySelector('iframe').onerror = function() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            loadingScreen.innerHTML = `
+                <img src="https://compatai.mx/assets/logo/Logo_compaTAI.png" alt="CompaTAI Logo" class="loading-logo">
+                <p style="color: #ff6b6b;">Error al cargar la aplicación</p>
+                <p class="loading-subtitle">Por favor, recarga la página o intenta más tarde</p>
+                <button onclick="location.reload()" style="
+                    background: #00D4AA;
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    font-size: 1rem;
+                    margin-top: 20px;
+                ">Recargar</button>
+            `;
+        };
+
+        // Analytics tracking (opcional)
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'app_load', {
+                'event_category': 'CompaTAI',
+                'event_label': 'Hugging Face Space'
+            });
+        }
+    </script>
+</body>
+</html>

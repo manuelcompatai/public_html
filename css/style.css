@@ -1,0 +1,276 @@
+:root {
+    /* PALETA ROJO / NEGRO / BLANCO */
+    --primary: #E60000;  /* Rojo Intenso */
+    --dark: #000000;     /* Negro Puro */
+    --light: #FFFFFF;    /* Blanco */
+    --font-main: 'Inter', sans-serif;
+}
+
+/* ---------------- RESET BASE ---------------- */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: var(--font-main);
+    color: var(--light);
+    background-color: var(--dark);
+}
+
+/* ---------------- NAVBAR (TRANSPARENTE OSCURO) ---------------- */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+
+    /* SOLUCIÓN: Negro con 60% de opacidad. 
+       Permite ver el video y hace que el logo blanco RESALTE. */
+    background-color: rgba(0, 0, 0, 0.15);
+    
+    /* Blur para efecto vidrio elegante */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    /* Borde inferior sutil para separar */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1rem 0;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* LOGO - VISIBLE AL NATURAL */
+.nav-logo {
+    display: flex;
+    align-items: center;
+    height: 48px;
+    text-decoration: none;
+    font-weight: 900;
+    font-size: 1.5rem;
+    color: #FFFFFF; /* Texto de respaldo blanco */
+}
+
+.nav-logo img {
+    height: 42px;
+    width: auto;
+    display: block;
+    /* Eliminamos filtros raros. Se verá tal cual es el PNG. */
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5)); 
+    transition: transform 0.25s ease;
+}
+
+.nav-logo:hover img {
+    transform: scale(1.05);
+}
+
+/* ENLACES - BLANCOS CON HOVER ROJO */
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a {
+    text-decoration: none;
+    /* Las letras deben ser BLANCAS para leerse sobre el video oscuro */
+    color: #FFFFFF; 
+    opacity: 0.9;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.nav-links a:hover, .nav-links a.active {
+    opacity: 1;
+    /* AQUÍ ENTRA EL ROJO */
+    color: var(--primary); 
+}
+
+/* BOTÓN DE CONTACTO - ROJO SOLIDO */
+.nav-btn {
+    background-color: var(--primary); /* Fondo Rojo */
+    color: #FFFFFF !important; /* Texto Blanco */
+    padding: 10px 24px;
+    border-radius: 50px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.nav-btn:hover {
+    background-color: #cc0000; /* Rojo más oscuro al hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(230, 0, 0, 0.4);
+}
+
+/* ---------------- BACKGROUND SYSTEM (NO TOCAR - VIDEO) ---------------- */
+#bg-container {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+}
+
+/* Video y slideshow */
+.bg-element {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(1.05) contrast(1.1);
+}
+
+/* Overlay */
+.bg-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+}
+
+/* ---------------- HERO SECTION ---------------- */
+.hero {
+    position: relative;
+    z-index: 10;
+    height: 100vh;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 800px;
+}
+
+.main-logo {
+    width: 180px;
+    margin-bottom: 2rem;
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
+}
+
+h1 {
+    font-size: 3.5rem;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    color: #ffffff;
+}
+
+/* EL TEXTO DESTACADO EN ROJO */
+.highlight {
+    color: var(--primary); /* Rojo */
+    text-shadow: 0 0 20px rgba(230, 0, 0, 0.4); /* Resplandor rojo */
+}
+
+p {
+    font-size: 1.2rem;
+    color: #e6e6e6; /* Blanco grisáceo para leer mejor */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+}
+
+/* ============================================================
+   FIX ESPECÍFICO PARA EL EFECTO ESPEJO/TRANSLÚCIDO
+   ============================================================ */
+
+/* Remover la regla anterior para body.iframe-page .navbar y reemplazar con: */
+body.iframe-page .navbar {
+    /* Fondo mucho más translúcido - similar al index.html */
+    background-color: rgba(0, 0, 0, 0.15) !important; /* 15% de opacidad en lugar de 85% */
+    
+    /* Mantener el blur fuerte */
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+    
+    /* Borde inferior más sutil */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+    
+    /* Asegurar que esté por encima del contenido */
+    z-index: 1000 !important;
+}
+
+/* Mejorar el contraste del logo en fondos claros */
+body.iframe-page .nav-logo img {
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.3)) 
+            brightness(1.1) 
+            contrast(1.2) !important;
+}
+
+/* Mejorar visibilidad de enlaces */
+body.iframe-page .nav-links a {
+    color: #FFFFFF !important;
+    opacity: 0.95 !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+    font-weight: 700 !important;
+}
+
+/* Efecto hover más pronunciado */
+body.iframe-page .nav-links a:hover {
+    color: var(--primary) !important;
+    opacity: 1 !important;
+    transform: translateY(-1px) !important;
+    text-shadow: 0 2px 8px rgba(230, 0, 0, 0.3) !important;
+}
+
+/* Enlace activo más destacado */
+body.iframe-page .nav-links a.active {
+    color: var(--primary) !important;
+    opacity: 1 !important;
+    position: relative !important;
+}
+
+body.iframe-page .nav-links a.active::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: -5px !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 2px !important;
+    background-color: var(--primary) !important;
+    border-radius: 2px !important;
+}
+
+/* Botón de contacto más brillante */
+body.iframe-page .nav-btn {
+    background-color: var(--primary) !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 4px 15px rgba(230, 0, 0, 0.3) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+body.iframe-page .nav-btn:hover {
+    background-color: #ff1a1a !important;
+    box-shadow: 0 6px 20px rgba(230, 0, 0, 0.5) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* Asegurar que el wrapper del contenido tenga espacio para el navbar */
+body.iframe-page .demo-wrapper,
+body.iframe-page .store-wrapper {
+    padding-top: 0 !important; /* Quitar el padding-top ya que el navbar es fixed */
+}
+
+/* Corrección para el loading overlay en demo.html */
+body.iframe-page .demo-wrapper .loading-overlay {
+    top: 0 !important;
+    height: 100vh !important;
+}
+
+/* Corrección para el loading overlay en store.html */
+body.iframe-page .store-wrapper .loading-overlay {
+    top: 0 !important;
+    height: 100vh !important;
+}
