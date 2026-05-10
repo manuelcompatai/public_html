@@ -92,7 +92,7 @@ export default function Home() {
               ▶&nbsp; Live Demo
             </Link>
             <Link to="/store" className="btn btn--secondary">
-              Buy Dataset &rarr;
+              Buy Video Sets &rarr;
             </Link>
           </div>
 

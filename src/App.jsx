@@ -10,8 +10,6 @@ export default function App() {
       <Navbar />
       <Routes>
         <Route path="/"      element={<Home />}  />
-        <Route path="/demo"  element={<Demo />}  />
-        <Route path="/store" element={<Store />} />
         <Route path="*"      element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
