@@ -1,33 +1,387 @@
-import { useState } from 'react'
-import './IframePage.css'
+import { useState, useCallback } from 'react'
+import './Demo.css'
 
-const GRADIO_URL = 'https://demo.compatai.mx'
+const API = import.meta.env.VITE_API_URL || 'https://demo.compatai.mx/api'
 
-export default function Demo() {
-  const [loaded, setLoaded] = useState(false)
+const CATEGORIES = [
+  { key: 'cat_parking',        label: '🚗 Informal Parking'   },
+  { key: 'cat_motos',          label: '🏍️ Motorcycle Weaving' },
+  { key: 'cat_pedestrians',    label: '🚶 Jaywalking'          },
+  { key: 'cat_vendors',        label: '🛒 Street Vendors'      },
+  { key: 'cat_microbus',       label: '🚌 Microbus Behavior'   },
+  { key: 'cat_intersections',  label: '🚦 Intersection Chaos'  },
+  { key: 'cat_infrastructure', label: '🕳️ Infrastructure'      },
+]
+
+const TABS = ['🤖 AI Demo', '📊 Dataset', 'ℹ️ About']
+
+// ── Sub-components ───────────────────────────────────
+
+function SampleInfo({ sample }) {
+  const pct = Math.round((sample.confidence || 0) * 100)
 
   return (
-    <div className="iframe-page">
+    <div className="demo-info">
 
-      {/* Loading overlay */}
-      <div className={`iframe-page__overlay${loaded ? ' iframe-page__overlay--hidden' : ''}`}>
-        <img
-          src="https://compatai.mx/assets/logo/Logo_compaTAI.png"
-          alt="compaTAI"
-          className="iframe-page__overlay-logo"
-        />
-        <p className="iframe-page__overlay-label">INITIALIZING ENGINE…</p>
-        <div className="iframe-page__spinner" />
+      <div className="demo-info__header">
+        <span className="demo-info__badge">
+          Sample #{String(sample.id).padStart(3, '0')} / {sample.total}
+        </span>
+        <span className="demo-info__conf">
+          {pct}% confidence
+          <span
+            className="demo-info__conf-bar"
+            style={{ '--pct': `${pct}%` }}
+          />
+        </span>
       </div>
 
-      {/* Gradio app */}
-      <iframe
-        src={GRADIO_URL}
-        title="compaTAI Live Demo"
-        className="iframe-page__frame"
-        onLoad={() => setTimeout(() => setLoaded(true), 800)}
-        allow="autoplay; fullscreen"
-      />
+      {sample.behaviors?.length > 0 && (
+        <div className="demo-info__section">
+          <p className="demo-info__label">🎯 CDMX Behaviors</p>
+          <div className="demo-info__tags">
+            {sample.behaviors.map(b => (
+              <span key={b} className="demo-info__tag">{b}</span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {sample.yolo_total > 0 && (
+        <div className="demo-info__section">
+          <p className="demo-info__label">
+            📦 YOLO Objects &nbsp;
+            <span className="demo-info__muted">({sample.yolo_total} total)</span>
+          </p>
+          <div className="demo-info__classes">
+            {Object.entries(sample.yolo_classes || {})
+              .sort((a, b) => b[1] - a[1])
+              .map(([cls, count]) => (
+                <div key={cls} className="demo-info__class-row">
+                  <span>{cls}</span>
+                  <span className="demo-info__class-count">{count}</span>
+                </div>
+              ))}
+          </div>
+        </div>
+      )}
+
+      <div className="demo-info__meta">
+        <span>✅ Faces &amp; plates anonymized</span>
+        <span>🇲🇽 Authentic CDMX · 60fps 2560×1080</span>
+        {sample.added_at && <span>Added {sample.added_at}</span>}
+      </div>
+
+    </div>
+  )
+}
+
+function DatasetTab() {
+  const specs = [
+    ['Resolution',     '2560×1080 (Ultra Wide)'],
+    ['Frame Rate',     '60 fps'],
+    ['Clip Duration',  '15 seconds'],
+    ['Format',         'MP4 H.264'],
+    ['Location',       'Mexico City (CDMX)'],
+    ['Annotation',     'Bedrock Claude Vision + YOLO v8'],
+    ['Anonymization',  'AWS Rekognition (faces + plates)'],
+  ]
+
+  const behaviors = [
+    ['informal_parking',         'Cars blocking active traffic lanes'],
+    ['double_parking',           'Double-parked causing traffic jam'],
+    ['motorcycle_weaving',       'Motorcycles between lanes at speed'],
+    ['cultural_jaywalking',      'Pedestrians crossing mid-street'],
+    ['vendor_navigation',        'Street vendors in active traffic'],
+    ['bus_micro_behavior',       'Microbuses stopping unpredictably'],
+    ['intersection_negotiation', 'Uncontrolled intersection chaos'],
+  ]
+
+  const pricing = [
+    ['Starter Pack',  '10 clips per category', '$29'],
+    ['Full Day Pack', 'All clips from one recording day', '$99'],
+    ['Enterprise',    'Custom recordings + labeling', 'Contact us'],
+  ]
+
+  return (
+    <div className="demo-static">
+      <div className="demo-static__inner">
+
+        <h2 className="demo-static__title">
+          compaTAI <span>CDMX Chaos Dataset</span>
+        </h2>
+
+        <p className="demo-static__intro">
+          Standard AV datasets (Waymo, nuScenes) are built on predictable environments.
+          <strong> compaTAI focuses on the chaos edge case</strong> — informal and non-linear
+          traffic behaviors unique to Latin American megacities.
+        </p>
+
+        <h3 className="demo-static__h3">📈 Specifications</h3>
+        <table className="demo-table">
+          <tbody>
+            {specs.map(([k, v]) => (
+              <tr key={k}>
+                <td className="demo-table__key">{k}</td>
+                <td className="demo-table__val">{v}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        <h3 className="demo-static__h3">🏷️ Behavior Taxonomy</h3>
+        <table className="demo-table">
+          <tbody>
+            {behaviors.map(([label, desc]) => (
+              <tr key={label}>
+                <td className="demo-table__key"><code>{label}</code></td>
+                <td className="demo-table__val">{desc}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        <h3 className="demo-static__h3">💰 Pricing</h3>
+        <table className="demo-table">
+          <thead>
+            <tr>
+              <th>Package</th><th>Content</th><th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            {pricing.map(([pkg, content, price]) => (
+              <tr key={pkg}>
+                <td className="demo-table__key">{pkg}</td>
+                <td className="demo-table__val">{content}</td>
+                <td className="demo-table__price">{price}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        <div className="demo-static__cta">
+          <a
+            href="https://store.compatai.mx"
+            className="demo-static__buy"
+            target="_blank"
+            rel="noreferrer"
+          >
+            💳 Buy on Gumroad →
+          </a>
+        </div>
+
+      </div>
+    </div>
+  )
+}
+
+function AboutTab() {
+  const steps = [
+    ['AWS Bedrock Claude', 'Scene detection — identifies chaos behaviors in each frame'],
+    ['Amazon Rekognition', 'Face & plate anonymization — GDPR/privacy compliant'],
+    ['YOLO v8',            'Object detection annotations — bounding boxes on every clip'],
+  ]
+
+  return (
+    <div className="demo-static">
+      <div className="demo-static__inner">
+
+        <h2 className="demo-static__title">
+          About <span>compaTAI</span>
+        </h2>
+
+        <p className="demo-static__intro">
+          compaTAI produces specialized training data for autonomous vehicle
+          systems operating in <strong>high-entropy urban environments</strong>.
+        </p>
+
+        <h3 className="demo-static__h3">The Problem</h3>
+        <p className="demo-static__body">
+          Robotaxis trained on US/EU data <strong>fail in CDMX</strong> because
+          no lane markings are followed, the informal economy operates inside traffic,
+          microbuses stop unpredictably, and pedestrian patterns are non-linear.
+        </p>
+
+        <h3 className="demo-static__h3">Our Pipeline</h3>
+        <div className="demo-steps">
+          {steps.map(([tool, desc], i) => (
+            <div key={tool} className="demo-step">
+              <div className="demo-step__num">{i + 1}</div>
+              <div>
+                <p className="demo-step__tool">{tool}</p>
+                <p className="demo-step__desc">{desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="demo-about__links">
+          <a href="https://store.compatai.mx" target="_blank" rel="noreferrer">
+            🛒 Buy on Gumroad
+          </a>
+          <a href="mailto:manuel.vargas@compatai.mx">
+            📧 manuel.vargas@compatai.mx
+          </a>
+          <a href="https://compatai.mx" target="_blank" rel="noreferrer">
+            🌐 compatai.mx
+          </a>
+        </div>
+
+      </div>
+    </div>
+  )
+}
+
+// ── Main component ───────────────────────────────────
+
+export default function Demo() {
+  const [tab,      setTab]      = useState(0)
+  const [category, setCategory] = useState('cat_parking')
+  const [idx,      setIdx]      = useState(0)
+  const [sample,   setSample]   = useState(null)
+  const [loading,  setLoading]  = useState(false)
+  const [error,    setError]    = useState(null)
+
+  const loadDemo = useCallback(async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const res = await fetch(`${API}/demo/${category}?idx=${idx}`)
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}))
+        throw new Error(body.detail || `Error ${res.status}`)
+      }
+      const data = await res.json()
+      setSample(data)
+    } catch (e) {
+      setError(e.message)
+      setSample(null)
+    } finally {
+      setLoading(false)
+    }
+  }, [category, idx])
+
+  return (
+    <div className="demo-page">
+
+      {/* ── Tab bar ───────────────────────────────── */}
+      <div className="demo-tabbar">
+        {TABS.map((label, i) => (
+          <button
+            key={i}
+            className={`demo-tab${tab === i ? ' demo-tab--active' : ''}`}
+            onClick={() => setTab(i)}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {/* ── Tab 0: AI Demo ────────────────────────── */}
+      {tab === 0 && (
+        <div className="demo-ai">
+
+          {/* Controls sidebar */}
+          <aside className="demo-controls">
+
+            <label className="demo-label">📂 Behavior Category</label>
+            <select
+              className="demo-select"
+              value={category}
+              onChange={e => { setCategory(e.target.value); setSample(null) }}
+            >
+              {CATEGORIES.map(c => (
+                <option key={c.key} value={c.key}>{c.label}</option>
+              ))}
+            </select>
+
+            <label className="demo-label" style={{ marginTop: '20px' }}>
+              🎬 Sample &nbsp;
+              <span className="demo-label__val">#{idx}</span>
+              &nbsp;
+              <span className="demo-label__hint">(0 = latest)</span>
+            </label>
+            <input
+              type="range"
+              min={0} max={10} step={1}
+              value={idx}
+              onChange={e => { setIdx(+e.target.value); setSample(null) }}
+              className="demo-slider"
+            />
+
+            <button
+              className="demo-btn-load"
+              onClick={loadDemo}
+              disabled={loading}
+            >
+              {loading
+                ? <span className="demo-spinner" />
+                : '▶  Load YOLO Demo'}
+            </button>
+
+            <hr className="demo-divider" />
+
+            <p className="demo-buy-label">🛒 Buy Full Dataset</p>
+            <a
+              href="https://store.compatai.mx"
+              className="demo-btn-buy"
+              target="_blank"
+              rel="noreferrer"
+            >
+              💳 Buy on Gumroad →
+            </a>
+
+          </aside>
+
+          {/* Viewer */}
+          <div className="demo-viewer">
+
+            {!sample && !loading && !error && (
+              <div className="demo-empty">
+                <p className="demo-empty__icon">🎬</p>
+                <p>Select a category and click <strong>Load YOLO Demo</strong></p>
+                <p className="demo-empty__sub">
+                  YOLO v8 annotated · Faces &amp; plates anonymized · CDMX footage
+                </p>
+              </div>
+            )}
+
+            {loading && (
+              <div className="demo-empty">
+                <span className="demo-spinner demo-spinner--lg" />
+                <p style={{ marginTop: 16, color: 'var(--grey-text)' }}>
+                  Loading sample…
+                </p>
+              </div>
+            )}
+
+            {error && (
+              <div className="demo-empty demo-empty--error">
+                <p className="demo-empty__icon">⚠️</p>
+                <p>{error}</p>
+              </div>
+            )}
+
+            {sample && !loading && (
+              <>
+                <video
+                  key={sample.video_url}
+                  className="demo-video"
+                  controls
+                  autoPlay
+                  playsInline
+                  src={sample.video_url}
+                />
+                <SampleInfo sample={sample} />
+              </>
+            )}
+
+          </div>
+        </div>
+      )}
+
+      {tab === 1 && <DatasetTab />}
+      {tab === 2 && <AboutTab />}
 
     </div>
   )
