@@ -8,28 +8,15 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy and configure nginx for React SPA
+      - name: Pull and diagnose
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: 52.44.87.36
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
+          script_stop: false
           script: |
-            echo "=== STEP 1: git pull ==="
             bash ~/deploy_web.sh
-            echo "Exit code: $?"
-
-            echo "=== STEP 2: deploy_web.sh contents ==="
             cat ~/deploy_web.sh
-
-            echo "=== STEP 3: nginx sites ==="
-            ls /etc/nginx/sites-enabled/ 2>/dev/null && cat /etc/nginx/sites-enabled/* 2>/dev/null || echo "no sites-enabled"
-            ls /etc/nginx/conf.d/ 2>/dev/null && cat /etc/nginx/conf.d/*.conf 2>/dev/null || echo "no conf.d"
-
-            echo "=== STEP 4: nginx root and key directives ==="
-            sudo nginx -T 2>/dev/null | grep -E "(configuration file|server_name|root |try_files|location )" | head -60
-
-            echo "=== STEP 5: check dist/ ==="
-            find /home/ubuntu /var/www -name "index.html" -not -path "*/node_modules/*" 2>/dev/null | head -20
-
-            echo "=== DONE ==="
+            sudo nginx -T 2>/dev/null | grep -E "server_name|root " | head -20
+            find /home/ubuntu -name "index.html" 2>/dev/null | head -10
