@@ -1,0 +1,60 @@
+/* ── Iframe page shell ─────────────────────────────── */
+.iframe-page {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - var(--nav-height));
+  margin-top: var(--nav-height);
+  background: #000;
+  overflow: hidden;
+}
+
+/* ── Frame ─────────────────────────────────────────── */
+.iframe-page__frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* ── Loading overlay ───────────────────────────────── */
+.iframe-page__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.iframe-page__overlay--hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.iframe-page__overlay-logo {
+  width: 90px;
+  filter: drop-shadow(0 0 16px rgba(230, 0, 0, 0.25));
+}
+
+.iframe-page__overlay-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+
+/* ── Spinner ───────────────────────────────────────── */
+.iframe-page__spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(230, 0, 0, 0.12);
+  border-top-color: var(--red);
+  border-radius: 50%;
+  animation: spin 0.85s linear infinite;
+}

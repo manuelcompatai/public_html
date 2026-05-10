@@ -1,0 +1,104 @@
+/* ── Navbar ────────────────────────────────────────── */
+.navbar {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: var(--nav-height);
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.nav-inner {
+  max-width: 1200px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ── Logo ──────────────────────────────────────────── */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.nav-logo img {
+  height: 38px;
+  width: auto;
+  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.5));
+  transition: transform 0.25s var(--ease), opacity 0.25s var(--ease);
+}
+
+.nav-logo:hover img {
+  transform: scale(1.06);
+  opacity: 0.9;
+}
+
+/* ── Links ─────────────────────────────────────────── */
+.nav-links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-link {
+  display: inline-block;
+  padding: 8px 14px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.82);
+  border-radius: 8px;
+  transition: color 0.2s var(--ease), background 0.2s var(--ease);
+  letter-spacing: 0.01em;
+  position: relative;
+}
+
+.nav-link:hover {
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* Active — red underline indicator */
+.nav-link--active {
+  color: var(--red) !important;
+}
+
+.nav-link--active::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 14px;
+  right: 14px;
+  height: 2px;
+  background: var(--red);
+  border-radius: 2px;
+}
+
+/* ── CTA button ────────────────────────────────────── */
+.nav-cta {
+  background: var(--red);
+  color: var(--white) !important;
+  padding: 9px 20px;
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  font-size: 0.875rem;
+  box-shadow: 0 2px 12px rgba(230, 0, 0, 0.25);
+  transition: background 0.2s var(--ease), box-shadow 0.2s var(--ease),
+              transform 0.2s var(--ease);
+  margin-left: 8px;
+}
+
+.nav-cta:hover {
+  background: var(--red-dark);
+  box-shadow: 0 4px 20px var(--red-glow);
+  transform: translateY(-1px);
+}
+
+/* Remove underline indicator for CTA */
+.nav-cta::after { display: none !important; }

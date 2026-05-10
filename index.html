@@ -1,62 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>compaTAI | High-Density Chaos Datasets for Autonomous Driving</title>
-  
-  <meta name="description" content="Premium Edge Case Datasets from Mexico City. We provide high-density chaos data for training robust AI in unpredictable urban environments. Potholes, motorcycle weaving, and irregular traffic patterns.">
-  <meta name="keywords" content="Autonomous Vehicles, Edge Cases, AI Training Data, Mexico City Traffic, Machine Learning Dataset, Computer Vision, Road Infrastructure Deficit, Urban Mobility IA">
-  
-  <meta property="og:title" content="compaTAI - Mastering Urban Chaos" />
-  <meta property="og:description" content="Training AI for the world's most complex cities. Get access to our curated CDMX High-Density Chaos Packs." />
-  <meta property="og:url" content="https://compatai.mx" />
-  <meta property="og:image" content="https://compatai.mx/assets/img_background/vlcsnap-2025-08-23-07h21m00s937.jpg" />
-  
-  <meta name="twitter:card" content="summary_large_image" />
- 
-  <script src="https://gumroad.com/js/static/widget.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="css/style.css">
+
+  <meta name="description" content="Premium edge-case datasets from Mexico City. High-density chaos data for training robust AI in unpredictable urban environments." />
+  <meta name="keywords"    content="Autonomous Vehicles, Edge Cases, AI Training Data, Mexico City Traffic, Machine Learning Dataset, Computer Vision" />
+
+  <meta property="og:title"       content="compaTAI — Mastering Urban Chaos" />
+  <meta property="og:description" content="Training AI for the world's most complex cities. CDMX dashcam footage, annotated and anonymized." />
+  <meta property="og:url"         content="https://compatai.mx" />
+  <meta property="og:image"       content="https://compatai.mx/assets/img_background/vlcsnap-2025-08-23-07h21m00s937.jpg" />
+  <meta name="twitter:card"       content="summary_large_image" />
+
+  <link rel="icon" type="image/png" href="/assets/logo/Logo_compaTAI.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
 </head>
-
 <body>
-
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="nav-logo">
-            <img src="/assets/logo/compaTAI_logo_75x75.png" alt="compaTAI logo"></a>
-            <ul class="nav-links">
-                <li><a href="index.html" class="active">Home</a></li>
-                <li><a href="demo.html">Live Demo</a></li>
-                <li><a href="store.html">Video Store</a></li> 
-                <li><a href="mailto:social.media@compatai.mx" class="nav-btn">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <div id="bg-container">
-        <video id="bg-video" autoplay muted loop playsinline class="bg-element">
-            <source src="https://compatai.mx/assets/video_background/tmpcgc2hk3m.mp4" type="video/mp4">
-        </video>
-
-        <div id="bg-slideshow" class="bg-element">
-            <div class="slide active" style="background-image: url('https://compatai.mx/assets/img_background/Ejemplo3.jpg')"></div>
-            <div class="slide" style="background-image: url('https://compatai.mx/assets/img_background/Ejemplo5.jpg')"></div>
-        </div>
-
-        <div class="bg-overlay"></div>
-    </div>
-
-    <main class="hero">
-        <div class="hero-content">
-            <img src="https://compatai.mx/assets/logo/Logo_compaTAI.png" alt="compaTAI Logo" class="main-logo">
-            <h1>Mastering <span class="highlight">Urban Chaos</span></h1>
-            <p>Training Autonomous Vehicles for the world's most unpredictable cities.</p>
-        </div>
-    </main>
-
-    <script src="/js/script.js"></script>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
 </body>
 </html>

@@ -1,0 +1,74 @@
+/* ── Design tokens ─────────────────────────────────── */
+:root {
+  --red:         #E60000;
+  --red-dark:    #CC0000;
+  --red-glow:    rgba(230, 0, 0, 0.35);
+  --black:       #000000;
+  --white:       #ffffff;
+  --grey-text:   rgba(255, 255, 255, 0.72);
+  --nav-height:  64px;
+  --font:        'Inter', sans-serif;
+  --ease:        cubic-bezier(0.4, 0, 0.2, 1);
+  --radius-pill: 50px;
+  --radius-card: 16px;
+}
+
+/* ── Reset ─────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--black);
+  color: var(--white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img, video {
+  display: block;
+  max-width: 100%;
+}
+
+/* ── Scrollbar ─────────────────────────────────────── */
+::-webkit-scrollbar        { width: 5px; }
+::-webkit-scrollbar-track  { background: #111; }
+::-webkit-scrollbar-thumb  { background: var(--red); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--red-dark); }
+
+/* ── Keyframes ─────────────────────────────────────── */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideFadeIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
