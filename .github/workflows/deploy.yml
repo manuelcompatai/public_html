@@ -8,10 +8,43 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy via SSH
+      - name: Pull code and configure nginx for React SPA
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: 52.44.87.36
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
-          script: ~/deploy_web.sh
+          script: |
+            set -e
+
+            # ── 1. Git pull ───────────────────────────────────────
+            bash ~/deploy_web.sh
+
+            # ── 2. Find where the repo lives on this server ───────
+            REPO_DIR=$(cat ~/deploy_web.sh | grep -oE 'cd [^ ]+' | head -1 | awk '{print $2}')
+            if [ -z "$REPO_DIR" ] || [ ! -d "$REPO_DIR" ]; then
+              # Fallback: look for the dist/ folder we just pulled
+              REPO_DIR=$(find /home/ubuntu /var/www -maxdepth 3 -name "dist" -type d 2>/dev/null | head -1 | xargs dirname 2>/dev/null)
+            fi
+            DIST_DIR="$REPO_DIR/dist"
+            echo "Repo: $REPO_DIR"
+            echo "Dist: $DIST_DIR"
+
+            # ── 3. Update nginx to serve dist/ with SPA routing ───
+            # Find the config file that covers compatai.mx
+            CONF=$(sudo grep -rl "compatai.mx" /etc/nginx/sites-enabled/ /etc/nginx/conf.d/ 2>/dev/null | head -1)
+            if [ -z "$CONF" ]; then
+              echo "WARNING: no nginx config found for compatai.mx — printing all configs:"
+              sudo nginx -T 2>/dev/null | grep -E "(server_name|root |location)" | head -40
+            else
+              echo "Updating config: $CONF"
+              # Replace the root directive
+              sudo sed -i "s|root [^;]*/public_html[^;]*;|root $DIST_DIR;|g" "$CONF"
+              sudo sed -i "s|root [^;]*/var/www/[^;]*;|root $DIST_DIR;|g" "$CONF"
+              # Add try_files for React SPA if not already there
+              if ! sudo grep -q "try_files.*index.html" "$CONF"; then
+                sudo sed -i '/location \/ {/a\\t\ttry_files $uri $uri/ /index.html;' "$CONF"
+              fi
+              sudo nginx -t && sudo systemctl reload nginx
+              echo "Nginx updated and reloaded."
+            fi
