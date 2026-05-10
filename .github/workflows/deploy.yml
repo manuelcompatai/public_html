@@ -8,18 +8,16 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Pull code
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: 52.44.87.36
-          username: ubuntu
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: ~/deploy_web.sh
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/ec2_deploy_key
+          chmod 600 ~/.ssh/ec2_deploy_key
+          ssh-keyscan -H 52.44.87.36 >> ~/.ssh/known_hosts 2>/dev/null
+          echo "Key file size: $(wc -c < ~/.ssh/ec2_deploy_key) bytes"
+
+      - name: Git pull on EC2
+        run: ssh -i ~/.ssh/ec2_deploy_key -o StrictHostKeyChecking=no ubuntu@52.44.87.36 "bash ~/deploy_web.sh"
 
       - name: Configure nginx for React SPA
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: 52.44.87.36
-          username: ubuntu
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: find /home/ubuntu /var/www -name "fix_nginx.sh" 2>/dev/null | head -1 | xargs bash
+        run: ssh -i ~/.ssh/ec2_deploy_key -o StrictHostKeyChecking=no ubuntu@52.44.87.36 "find /home/ubuntu /var/www -name fix_nginx.sh 2>/dev/null | head -1 | xargs bash"
