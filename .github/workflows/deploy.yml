@@ -8,15 +8,18 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Pull and diagnose
+      - name: Pull code
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: 52.44.87.36
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
-          script_stop: false
-          script: |
-            bash ~/deploy_web.sh
-            cat ~/deploy_web.sh
-            sudo nginx -T 2>/dev/null | grep -E "server_name|root " | head -20
-            find /home/ubuntu -name "index.html" 2>/dev/null | head -10
+          script: ~/deploy_web.sh
+
+      - name: Configure nginx for React SPA
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 52.44.87.36
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: find /home/ubuntu /var/www -name "fix_nginx.sh" 2>/dev/null | head -1 | xargs bash
