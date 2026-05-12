@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react'
-import { Link } from 'react-router-dom'
 import './Home.css'
 
 const VIDEO_SRC  = '/assets/video_background/output_bg.mp4'
@@ -89,12 +88,12 @@ export default function Home() {
           </p>
 
           <div className="home-hero__ctas">
-            <Link to="/demo" className="btn btn--primary">
-              ▶&nbsp; Live Demo
-            </Link>
-            <Link to="/store" className="btn btn--secondary">
-              Buy Video Sets &rarr;
-            </Link>
+            <a href="https://demo.compatai.mx" className="btn btn--primary">
+              Live Demo
+            </a>
+            <a href="https://store.compatai.mx" className="btn btn--secondary">
+              Buy Video Sets
+            </a>
           </div>
 
         </div>
