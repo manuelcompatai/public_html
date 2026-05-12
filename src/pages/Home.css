@@ -80,6 +80,7 @@
 .home-hero__eyebrow {
   font-size: 0.75rem;
   font-weight: 600;
+  font-family: var(--font);   /* ← --font, no --font-main */
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--red);
@@ -205,3 +206,4 @@
   0%, 100% { transform: translateX(-50%) translateY(0);   opacity: 1; }
   80%       { transform: translateX(-50%) translateY(12px); opacity: 0; }
 }
+
