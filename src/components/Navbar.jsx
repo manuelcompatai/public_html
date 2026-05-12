@@ -17,12 +17,12 @@ export default function Navbar() {
     <nav className="navbar">
       <div className="nav-inner">
 
-        <NavLink to="/" className="nav-logo" aria-label="compaTAI home">
+        <a href="https://compatai.mx" className="nav-logo" aria-label="compaTAI home">
           <img
             src="/assets/logo/compaTAI_logo_75x75.png"
             alt="compaTAI"
           />
-        </NavLink>
+        </a>
 
         <ul className="nav-links">
           {LINKS.map(({ to, label }) => (
