@@ -1,7 +1,8 @@
 import { useState, useCallback } from 'react'
 import './Demo.css'
 
-const API = import.meta.env.VITE_API_URL || 'https://demo.compatai.mx/api'
+// ── Configuración S3 (reemplaza la API de EC2) ────────
+const S3 = 'https://compatai-videos.s3.amazonaws.com/demo_samples'
 
 const CATEGORIES = [
   { key: 'cat_parking',        label: '🚗 Informal Parking'   },
@@ -15,7 +16,7 @@ const CATEGORIES = [
 
 const TABS = ['🤖 AI Demo', '📊 Dataset', 'ℹ️ About']
 
-// ── Sub-components ───────────────────────────────────
+// ── SampleInfo ───────────────────────────────────────
 
 function SampleInfo({ sample }) {
   const pct = Math.round((sample.confidence || 0) * 100)
@@ -75,6 +76,8 @@ function SampleInfo({ sample }) {
     </div>
   )
 }
+
+// ── DatasetTab ───────────────────────────────────────
 
 function DatasetTab() {
   const specs = [
@@ -160,7 +163,7 @@ function DatasetTab() {
         </table>
 
         <div className="demo-static__cta">
-          <a
+          
             href="https://store.compatai.mx"
             className="demo-static__buy"
             target="_blank"
@@ -174,6 +177,8 @@ function DatasetTab() {
     </div>
   )
 }
+
+// ── AboutTab ─────────────────────────────────────────
 
 function AboutTab() {
   const steps = [
@@ -241,21 +246,36 @@ export default function Demo() {
   const [sample,   setSample]   = useState(null)
   const [loading,  setLoading]  = useState(false)
   const [error,    setError]    = useState(null)
+  const [maxIdx,   setMaxIdx]   = useState(1)
 
+  // ── Carga directo desde S3 index.json ─────────────
   const loadDemo = useCallback(async () => {
     setLoading(true)
     setError(null)
+    setSample(null)
     try {
-      const res = await fetch(`${API}/demo/${category}?idx=${idx}`)
-      if (!res.ok) {
-        const body = await res.json().catch(() => ({}))
-        throw new Error(body.detail || `Error ${res.status}`)
-      }
+      const res = await fetch(`${S3}/${category}/index.json`)
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
       const data = await res.json()
-      setSample(data)
+
+      const samples = data.samples || []
+      if (samples.length === 0) throw new Error('No videos in this category')
+
+      setMaxIdx(samples.length - 1)
+      const clip = samples[idx % samples.length]
+
+      setSample({
+        id:           clip.id,
+        total:        samples.length,
+        video_url:    `https://compatai-videos.s3.amazonaws.com/${clip.s3_key}`,
+        behaviors:    clip.behaviors            || [],
+        confidence:   clip.confidence           || 0,
+        yolo_classes: clip.yolo_stats?.classes  || {},
+        yolo_total:   clip.yolo_stats?.total_objects || 0,
+        added_at:     clip.added_at,
+      })
     } catch (e) {
       setError(e.message)
-      setSample(null)
     } finally {
       setLoading(false)
     }
@@ -297,13 +317,13 @@ export default function Demo() {
 
             <label className="demo-label" style={{ marginTop: '20px' }}>
               🎬 Sample &nbsp;
-              <span className="demo-label__val">#{idx}</span>
+              <span className="demo-label__val">#{idx + 1}</span>
               &nbsp;
-              <span className="demo-label__hint">(0 = latest)</span>
+              <span className="demo-label__hint">of {maxIdx + 1}</span>
             </label>
             <input
               type="range"
-              min={0} max={10} step={1}
+              min={0} max={maxIdx} step={1}
               value={idx}
               onChange={e => { setIdx(+e.target.value); setSample(null) }}
               className="demo-slider"
@@ -322,7 +342,7 @@ export default function Demo() {
             <hr className="demo-divider" />
 
             <p className="demo-buy-label">🛒 Buy Full Dataset</p>
-            <a
+            
               href="https://store.compatai.mx"
               className="demo-btn-buy"
               target="_blank"
