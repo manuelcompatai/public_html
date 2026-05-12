@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom'
 import './Navbar.css'
 
 const LINKS = [
-  { to: '/',      label: 'Home'      },
+  { href: 'https://compatai.mx', label: 'Home', active: isHome  },
   { to: 'https://demo.compatai.mx',  label: 'Live Demo' },
   { to: 'https://store.compatai.mx', label: 'Video Store' },
 ]
@@ -36,7 +36,7 @@ export default function Navbar() {
 
           <li>
             <a
-              href="mailto:hello@compatai.mx"
+              href="mailto:social.media@compatai.mx"
               className="nav-link nav-cta"
             >
               Contact
