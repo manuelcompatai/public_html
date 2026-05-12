@@ -1,9 +1,52 @@
+/* ── Store sub-navbar ──────────────────────────────── */
+:root { --store-bar-height: 40px; }
+
+.store-bar {
+  position: fixed;
+  top: var(--nav-height);
+  inset-inline: 0;
+  height: var(--store-bar-height);
+  z-index: 999;
+  background: rgba(10, 10, 10, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(230, 0, 0, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+}
+
+.store-bar__back {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--red);
+  letter-spacing: 0.03em;
+  transition: opacity 0.2s;
+}
+.store-bar__back:hover { opacity: 0.75; }
+
+.store-bar__title {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.store-bar__home {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.45);
+  transition: color 0.2s;
+}
+.store-bar__home:hover { color: var(--white); }
+
 /* ── Iframe page shell ─────────────────────────────── */
 .iframe-page {
   position: relative;
   width: 100%;
-  height: calc(100vh - var(--nav-height));
-  margin-top: var(--nav-height);
+  height: calc(100vh - var(--nav-height) - var(--store-bar-height));
+  margin-top: calc(var(--nav-height) + var(--store-bar-height));
   background: #000;
   overflow: hidden;
 }

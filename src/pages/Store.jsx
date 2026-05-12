@@ -9,6 +9,17 @@ export default function Store() {
   return (
     <div className="iframe-page">
 
+      {/* Store sub-navbar */}
+      <div className="store-bar">
+        <a href="https://compatai.mx" className="store-bar__back">
+          ← compaTAI
+        </a>
+        <span className="store-bar__title">Video Store</span>
+        <a href="https://compatai.mx" className="store-bar__home">
+          Volver al inicio
+        </a>
+      </div>
+
       {/* Loading overlay */}
       <div className={`iframe-page__overlay${loaded ? ' iframe-page__overlay--hidden' : ''}`}>
         <img
