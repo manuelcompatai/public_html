@@ -2,11 +2,12 @@ import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import './Home.css'
 
-const VIDEO_SRC  = 'https://compatai.mx/assets/video_background/tmpcgc2hk3m.mp4'
+const VIDEO_SRC  = '/assets/video_background/tmpcgc2hk3m.mp4'
 const SLIDES = [
-  'https://compatai.mx/assets/img_background/Ejemplo3.jpg',
-  'https://compatai.mx/assets/img_background/Ejemplo5.jpg',
+'/assets/img_background/Ejemplo3.jpg',
+'/assets/img_background/Ejemplo5.jpg',
 ]
+
 
 export default function Home() {
   const videoRef     = useRef(null)
