@@ -503,10 +503,3 @@
 .demo-about__links a:hover {
   background: rgba(230,0,0,0.06);
 }
-
-/* Espacio para el navbar fijo */
-.demo-page {
-  padding-top: var(--nav-height);
-  min-height: 100vh;
-  background: #0a0a0a;
-}
