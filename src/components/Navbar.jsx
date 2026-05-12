@@ -3,8 +3,8 @@ import './Navbar.css'
 
 const LINKS = [
   { to: '/',      label: 'Home'      },
-  { to: '/demo',  label: 'Live Demo' },
-  { to: '/store', label: 'Video Store' },
+  { to: 'https://demo.compatai.mx',  label: 'Live Demo' },
+  { to: 'https://store.compatai.mx', label: 'Video Store' },
 ]
 
 export default function Navbar() {
