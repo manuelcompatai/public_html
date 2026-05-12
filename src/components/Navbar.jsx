@@ -6,9 +6,9 @@ const isStore = host.startsWith('store.')
 const isHome  = !isDemo && !isStore
 
 const LINKS = [
-  { href: '/',       label: 'Home',        active: isHome  },
-  { href: 'https://demo.compatai.mx',  label: 'Live Demo',   active: isDemo  },
-  { href: 'https://store.compatai.mx', label: 'Video Store', active: isStore },
+  { href: 'https://compatai.mx',        label: 'Home',        active: isHome  },
+  { href: 'https://demo.compatai.mx',   label: 'Live Demo',   active: isDemo  },
+  { href: 'https://store.compatai.mx',  label: 'Video Store', active: isStore },
 ]
 
 export default function Navbar() {
@@ -24,17 +24,14 @@ export default function Navbar() {
         </a>
 
         <ul className="nav-links">
-          {LINKS.map(({ to, label }) => (
-            <li key={to}>
-              <NavLink
-                to={to}
-                end={to === '/'}
-                className={({ isActive }) =>
-                  isActive ? 'nav-link nav-link--active' : 'nav-link'
-                }
+          {LINKS.map(({ href, label, active }) => (
+            <li key={href}>
+              <a
+                href={href}
+                className={active ? 'nav-link nav-link--active' : 'nav-link'}
               >
                 {label}
-              </NavLink>
+              </a>
             </li>
           ))}
 
