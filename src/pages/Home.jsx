@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import './Home.css'
 
-const VIDEO_SRC  = '/assets/video_background/tmpcgc2hk3m.mp4'
+const VIDEO_SRC  = '/assets/video_background/output_bg.mp4'
 const SLIDES = [
 '/assets/img_background/Ejemplo3.jpg',
 '/assets/img_background/Ejemplo5.jpg',
