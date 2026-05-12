@@ -1,4 +1,3 @@
-import { NavLink } from 'react-router-dom'
 import './Navbar.css'
 
 const host = window.location.hostname
