@@ -180,7 +180,7 @@ function AboutTab() {
         </div>
         <div className="demo-about__links">
           <a href="https://store.compatai.mx" target="_blank" rel="noreferrer">Buy on Gumroad</a>
-          <a href="mailto:manuel.vargas@compatai.mx">manuel.vargas@compatai.mx</a>
+          <a href="mailto:social.media@compatai.mx">socialmedia@compatai.mx</a>
           <a href="https://compatai.mx" target="_blank" rel="noreferrer">compatai.mx</a>
         </div>
       </div>
