@@ -1,10 +1,15 @@
 import { NavLink } from 'react-router-dom'
 import './Navbar.css'
 
+const host = window.location.hostname
+const isDemo  = host.startsWith('demo.')
+const isStore = host.startsWith('store.')
+const isHome  = !isDemo && !isStore
+
 const LINKS = [
-  { href: 'https://compatai.mx', label: 'Home', active: isHome  },
-  { to: 'https://demo.compatai.mx',  label: 'Live Demo' },
-  { to: 'https://store.compatai.mx', label: 'Video Store' },
+  { href: 'https://compatai.mx',       label: 'Home',        active: isHome  },
+  { href: 'https://demo.compatai.mx',  label: 'Live Demo',   active: isDemo  },
+  { href: 'https://store.compatai.mx', label: 'Video Store', active: isStore },
 ]
 
 export default function Navbar() {
